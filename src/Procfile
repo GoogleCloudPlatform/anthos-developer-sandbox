@@ -1,0 +1,2 @@
+web: gunicorn -p :8080 main:app
+test: python -m unittest

@@ -1,5 +1,7 @@
 # Anthos Developer Sandbox
 
+<walkthrough-disable-features toc></walkthrough-disable-features>
+
 ## Introduction
 
 This tutorial allows you to get your feet wet with Anthos development practices
@@ -15,15 +17,16 @@ By the end of this tutorial you will have:
 
 ## Running your app in a local cluster
 
-Our sample application is already available to you. Let's run it in a local
-Kubernetes cluster in Cloud Shell:
+Our sample application is already available to you. Let's run it on `minikube`,
+a local Kubernetes cluster available by default in Cloud Shell, giving you the
+same experience as deploying to Kubernetes without needing infrastructure:
 
 *   In your
     <walkthrough-editor-spotlight spotlightId="menu-terminal-new-terminal">terminal</walkthrough-editor-spotlight>,
     run the command below:
 
     ```bash
-    minikube start -p cloud-code-minikube
+    minikube start -p cloud-run-dev-internal
     ```
 
 *   If prompted, authorize Cloud Shell to make Google Cloud API calls
@@ -32,7 +35,8 @@ Kubernetes cluster in Cloud Shell:
     message
 
     ```terminal
-    Done! kubectl is now configured to use "minikube" by default
+    Done! kubectl is now configured to use
+    "cloud-run-dev-internal" by default
     ```
 
 Let's now build and run this app:
@@ -42,7 +46,7 @@ Let's now build and run this app:
     Code</walkthrough-editor-spotlight> in the status bar
 *   Select <walkthrough-editor-spotlight spotlightId="cloud-code-run-on-k8s">Run
     on Kubernetes</walkthrough-editor-spotlight>, confirm that you want to use
-    the "minikube" context
+    the "cloud-run-dev-internal" context
 *   An
     <walkthrough-editor-spotlight spotlightId="output">Output</walkthrough-editor-spotlight>
     panel will pop-up after a few seconds, displaying the progress as your app
@@ -53,17 +57,19 @@ Let's now build and run this app:
     panel, near the text:
 
     ```terminal
-    Forwarded URL from service anthos-sandbox-sample-application-external:
+    Forwarded URL from service
+    anthos-sandbox-sample-application-external:
     ```
 
 Congratulations! You've just run your first app on Kubernetes using
-[Cloud Code](https://cloud.google.com/code). Next step, let's modify and
-recompile this app.
+[Cloud Code](https://cloud.google.com/code). Next step, let's run our continuous
+integration tests locally.
 
 ## Use the Cloud Build local builder to run tests locally
 
 Let's now run the tests for our application locally. We'll do this with the
-Cloud Build local builder.
+Cloud Build local builder (`cloud-build-local`), which allows us to run the
+exact same build our continuous integration suite would run, locally:
 
 *   In your
     <walkthrough-editor-spotlight spotlightId="menu-terminal-new-terminal">terminal</walkthrough-editor-spotlight>,
@@ -73,6 +79,9 @@ Cloud Build local builder.
     ```bash
     cloud-build-local --dryrun=false .
     ```
+
+    **Note**: This command will produce some warnings which can safely be
+    ignored.
 
 *   You'll see that the tests have failed:
 
@@ -95,7 +104,9 @@ Looks like we were expecting our application to say "Hello Anthos" instead of
 
 ## Editing and Recompiling your app
 
-Our application is composed of the following:
+Cloud Code enables iterative development so your deployed app updates as you
+write code, with no need to redeploy after every change. Our application is
+composed of the following:
 
 *   A basic web app
     (<walkthrough-editor-open-file filePath="src/main.py">main.py</walkthrough-editor-open-file>),
@@ -105,8 +116,7 @@ Our application is composed of the following:
     (<walkthrough-editor-open-file filePath="kubernetes-manifests/hello.service.yaml">hello.service.yaml</walkthrough-editor-open-file>),
     which exposes our app to the internet.
 
-Cloud Code enables iterative development so your deployed app updates as you
-write code. To modify and automatically recompile our app:
+To modify and automatically rebuild our app:
 
 *   Change
     <walkthrough-editor-select-line filePath="src/main.py" startLine="9" endLine="9" startCharacterOffset="19" endCharacterOffset="24">main.py</walkthrough-editor-select-line>
@@ -121,7 +131,12 @@ write code. To modify and automatically recompile our app:
 
 ## Build the application with Cloud Buildpacks
 
-Now that we've fixed the bug, let's re-run the tests:
+[Google Cloud Buildpacks](https://cloud.google.com/blog/products/containers-kubernetes/google-cloud-now-supports-buildpacks)
+allow you to create production-ready container images directly from source code
+without having to use a Dockerfile, ready to be deployed anywhere container
+images can be deployed.
+
+First, now that we've fixed the bug, let's re-run the tests:
 
 *   In your
     <walkthrough-editor-spotlight spotlightId="menu-terminal-new-terminal">terminal</walkthrough-editor-spotlight>,
@@ -131,6 +146,9 @@ Now that we've fixed the bug, let's re-run the tests:
     cloud-build-local --dryrun=false .
     ```
 
+    **Note**: This command will produce some warnings which can safely be
+    ignored.
+
 *   You'll see that the tests are now passing:
 
     ```terminal
@@ -139,9 +157,10 @@ Now that we've fixed the bug, let's re-run the tests:
     OK
     ```
 
-*   We've also successfully built a container image with
-    [Google Cloud Buildpacks](https://github.com/GoogleCloudPlatform/buildpacks).
-    You can verify that your image is built by entering the following command
+*   As part of the build process, the `cloud-build-local` tool has also used
+    Google Cloud Buildpacks to produce a container image for your application.
+
+*   You can verify that your image is built by entering the following command
     and viewing the details under the `LOCAL` output:
 
     ```bash
@@ -190,11 +209,10 @@ Congratulations! You've just created and run your first Anthos application.
 Here are some additional tutorials for using Cloud Code to develop your apps on
 Google Cloud:
 
-<walkthrough-tutorial-card url="https://ide.cloud.google.com/?walkthrough_tutorial_url=https%3A%2F%2Fwalkthroughs.googleusercontent.com%2Fcontent%2Fcloud_code_install_local_ide%2Fcloud_code_install_local_ide.md&show=ide" icon="LAUNCHER_SECTION" label="cloudSql">
+<walkthrough-tutorial-card id="cloud_code_install_local_ide" icon="LAUNCHER_SECTION">
 **Cloud Code IDE extension** Install the Cloud Code extension on your local IDE
 (VSCode/IntelliJ) </walkthrough-tutorial-card>
 
-<walkthrough-tutorial-card url="https://ide.cloud.google.com/?walkthrough_tutorial_url=https%3A%2F%2Fwalkthroughs.googleusercontent.com%2Fcontent%2Fcloud_run_cloud_code_create_service%2Fcloud_run_cloud_code_create_service.md" icon="SERVERLESS_SECTION" label="cloudSql">
+<walkthrough-tutorial-card id="cloud_run_cloud_code_create_service" icon="SERVERLESS_SECTION">
 **Cloud Run** Create a serverless app from your browser
 </walkthrough-tutorial-card>
-

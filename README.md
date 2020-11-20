@@ -210,9 +210,11 @@ Here are some additional tutorials for using Cloud Code to develop your apps on
 Google Cloud:
 
 <walkthrough-tutorial-card id="cloud_code_install_local_ide" icon="LAUNCHER_SECTION">
-**Cloud Code IDE extension** Install the Cloud Code extension on your local IDE
+    
+**Cloud Code IDE extension** [Install the Cloud Code extension on your local IDE](https://cloud.google.com/code/docs/vscode/install)
 (VSCode/IntelliJ) </walkthrough-tutorial-card>
 
 <walkthrough-tutorial-card id="cloud_run_cloud_code_create_service" icon="SERVERLESS_SECTION">
+    
 **Cloud Run** Create a serverless app from your browser
 </walkthrough-tutorial-card>

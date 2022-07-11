@@ -4,54 +4,54 @@
 
 ## Introduction
 
-This tutorial allows you to get your feet wet with Anthos development practices
-like continuous/iterative development, local builds and local deployments.
+This tutorial gives you some experience with Anthos development practices
+such as continuous/iterative development, local builds, and local deployments.
 
-By the end of this tutorial you will have:
+In this tutorial, you learn how to perform the following tasks: 
 
-1.  Run this app on a local Kubernetes cluster with minikube
-2.  Use the Cloud Build local builder to run tests locally
-3.  Use Cloud Code to quickly test, debug and iterate on changes
-4.  Build the application with Cloud Buildpacks
-5.  Deploy the app to the Cloud Run Local Emulator
+1.  Run this app on a local Kubernetes cluster with minikube.
+2.  Use the Cloud Build local builder to run tests locally,
+3.  Use Cloud Code to quickly test, debug, and iterate on changes.
+4.  Build the application with Cloud Buildpacks.
+5.  Deploy the app to the Cloud Run Local Emulator.
 
-## Running your app in a local cluster
+## Run your app in a local cluster
 
-Our sample application is already available to you. Let's run it on `minikube`,
-a local Kubernetes cluster available by default in Cloud Shell, giving you the
-same experience as deploying to Kubernetes without needing infrastructure:
+Our sample application is already available to you. You run it on `minikube`,
+a local Kubernetes cluster available by default in Cloud Shell, which gives you the
+same experience as deploying to Kubernetes, without needing infrastructure.
 
-*   In your
+1.  In your
     <walkthrough-editor-spotlight spotlightId="menu-terminal-new-terminal">terminal</walkthrough-editor-spotlight>,
-    run the command below:
+    run the following command:
 
     ```bash
     minikube start -p cloud-run-dev-internal
     ```
 
-*   If prompted, authorize Cloud Shell to make Google Cloud API calls
+*   If prompted, authorize Cloud Shell to make Google Cloud API calls.
 
-*   Once your local cluster in Cloud Shell is set-up, you will see the following
-    message
+*   When your local cluster in Cloud Shell is set up, the following
+    message is displayed:
 
     ```terminal
     Done! kubectl is now configured to use
     "cloud-run-dev-internal" by default
     ```
 
-Let's now build and run this app:
+
 
 *   Click
     <walkthrough-editor-spotlight spotlightId="cloud-code-status-bar">Cloud
-    Code</walkthrough-editor-spotlight> in the status bar
+    Code</walkthrough-editor-spotlight> in the status bar.
 *   Select <walkthrough-editor-spotlight spotlightId="cloud-code-run-on-k8s">Run
-    on Kubernetes</walkthrough-editor-spotlight>, confirm that you want to use
-    the "cloud-run-dev-internal" context
+    on Kubernetes</walkthrough-editor-spotlight>, and confirm that you want to use
+    the "cloud-run-dev-internal" context.
 *   An
     <walkthrough-editor-spotlight spotlightId="output">Output</walkthrough-editor-spotlight>
-    panel will pop-up after a few seconds, displaying the progress as your app
-    is built/deployed
-*   Once your app is built (will take a few minutes), launch it with the Web
+    panel will appear after a few seconds and display the progress as your app
+    is built/deployed.
+*   When your app is built, to launch it, click the Web
     Preview link displayed in your
     <walkthrough-editor-spotlight spotlightId="output">Output</walkthrough-editor-spotlight>
     panel, near the text:
@@ -62,28 +62,27 @@ Let's now build and run this app:
     ```
 
 Congratulations! You've just run your first app on Kubernetes using
-[Cloud Code](https://cloud.google.com/code). Next step, let's run our continuous
-integration tests locally.
+[Cloud Code](https://cloud.google.com/code). 
 
 ## Use the Cloud Build local builder to run tests locally
 
-Let's now run the tests for our application locally. We'll do this with the
-Cloud Build local builder (`cloud-build-local`), which allows us to run the
-exact same build our continuous integration suite would run, locally:
+Now run the tests for your application locally with the
+Cloud Build local builder (`cloud-build-local`), which allows you to run the
+same build locally that your continuous integration suite would run.
 
 *   In your
     <walkthrough-editor-spotlight spotlightId="menu-terminal-new-terminal">terminal</walkthrough-editor-spotlight>,
-    run the following command to run the tests
-    (<walkthrough-editor-open-file filePath="tests/test_application.py">test_application.py</walkthrough-editor-open-file>).
+    to run the tests
+    (<walkthrough-editor-open-file filePath="tests/test_application.py">test_application.py</walkthrough-editor-open-file>), run the following command:
 
     ```bash
     cloud-build-local --dryrun=false .
     ```
 
-    **Note**: This command will produce some warnings which can safely be
+    **Note** This command will produce some warnings, which can safely be
     ignored.
 
-*   You'll see that the tests have failed:
+*   A message indicates that the tests have failed:
 
     ```terminal
     ## FAIL: test_my_app (tests.test_application.TestMyApplication)
@@ -99,57 +98,57 @@ exact same build our continuous integration suite would run, locally:
     FAILED (failures=1)
     ```
 
-Looks like we were expecting our application to say "Hello Anthos" instead of
-"Hello World". Let's fix that in the next step.
+The expected result was the application saying "Hello Anthos" instead of
+"Hello World." You will fix that in the next procedure.
 
-## Editing and Recompiling your app
+## Edit and recompile your app
 
-Cloud Code enables iterative development so your deployed app updates as you
-write code, with no need to redeploy after every change. Our application is
+Cloud Code enables iterative development, so your deployed app updates as you
+write code, with no need to redeploy after every change. Your application is
 composed of the following:
 
-*   A basic web app
+*   A basic web app,
     (<walkthrough-editor-open-file filePath="src/main.py">main.py</walkthrough-editor-open-file>),
-    which returns "Hello, world!" to all received requests
+    that returns "Hello, world!" to all received requests
 *   A load balancer, "anthos-sandbox-sample-application-external"
     [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/)
     (<walkthrough-editor-open-file filePath="kubernetes-manifests/hello.service.yaml">hello.service.yaml</walkthrough-editor-open-file>),
-    which exposes our app to the internet.
+    that exposes your app to the internet
 
-To modify and automatically rebuild our app:
+To modify and automatically rebuild your app:
 
-*   Change
+1.   Change
     <walkthrough-editor-select-line filePath="src/main.py" startLine="9" endLine="9" startCharacterOffset="19" endCharacterOffset="24">main.py</walkthrough-editor-select-line>
-    to print "Hello, Anthos!". The file will save automatically
-*   You'll notice in your
+    to print "Hello, Anthos!" The file will be saved automatically.
+*   The
     <walkthrough-editor-spotlight spotlightId="output">Output</walkthrough-editor-spotlight>
-    panel that your app automatically starts rebuilding
-*   Once your app finishes building and deploying, view the updated app text by
-    clicking the link in your
+    panel indicates that your app automatically starts rebuilding.
+2.   To view the updated app text,
+    click the link in your
     <walkthrough-editor-spotlight spotlightId="output">Output</walkthrough-editor-spotlight>
-    panel or by returning to your open tab and refreshing it
+    panel or return to your open tab and refresh it.
 
 ## Build the application with Cloud Buildpacks
 
 [Google Cloud Buildpacks](https://cloud.google.com/blog/products/containers-kubernetes/google-cloud-now-supports-buildpacks)
-allow you to create production-ready container images directly from source code
-without having to use a Dockerfile, ready to be deployed anywhere container
-images can be deployed.
+allow you to create production-ready container images, which are ready to be deployed anywhere container
+images can be deployed, directly from source code
+without having to use a Dockerfile.
 
-First, now that we've fixed the bug, let's re-run the tests:
+First, you'll re-run the tests.
 
-*   In your
+1.   In your
     <walkthrough-editor-spotlight spotlightId="menu-terminal-new-terminal">terminal</walkthrough-editor-spotlight>,
-    run the following command from before:
+    run the following command:
 
     ```bash
     cloud-build-local --dryrun=false .
     ```
 
-    **Note**: This command will produce some warnings which can safely be
+    **Note** This command will produce some warnings, which can safely be
     ignored.
 
-*   You'll see that the tests are now passing:
+*   The tests are now passing:
 
     ```terminal
     Ran 1 test in 0.020s
@@ -160,43 +159,39 @@ First, now that we've fixed the bug, let's re-run the tests:
 *   As part of the build process, the `cloud-build-local` tool has also used
     Google Cloud Buildpacks to produce a container image for your application.
 
-*   You can verify that your image is built by entering the following command
-    and viewing the details under the `LOCAL` output:
+2.   To verify that your image has been built, run the following command
+    and view the details under the `LOCAL` output:
 
     ```bash
     pack inspect-image anthos-sandbox-sample-application
     ```
 
-Next, we'll deploy the app to the Cloud Run Emulator.
 
 ## Deploy the app to the Cloud Run Emulator
 
-Now that we've built an image with Cloud Buildpacks, we can choose to deploy it
-directly to Cloud Run to take advantage of it's ability to scale up whenever
-traffic increases, and scale to zero when it's not being used, eliminating any
+Now that you've built an image with Cloud Buildpacks, you can deploy it
+directly to Cloud Run to take advantage of its ability to scale up whenever
+traffic increases and scale to zero when it's not being used, thus eliminating any
 idle costs.
 
-We can get the same experience as deploying to Cloud Run by redeploying our app
+You can get the same experience as deploying to Cloud Run by redeploying your app
 locally on the Cloud Run Emulator:
 
-*   Launch
+1.   Launch
     <walkthrough-editor-spotlight spotlightId="cloud-code-status-bar">Cloud
-    Code</walkthrough-editor-spotlight> from the status bar
-*   Select
+    Code</walkthrough-editor-spotlight> from the status bar.
+2.   Select
     <walkthrough-editor-spotlight spotlightId="cloud-code-run-on-cloud-run-emulator">Run
-    on Cloud Run Emulator</walkthrough-editor-spotlight>
-*   Your app will now be built and deployed again
-*   Once your app is deployed, launch it with the link displayed in your
+    on Cloud Run Emulator</walkthrough-editor-spotlight>.
+    Your app will now be built and deployed again.
+   
+3.   After your app is deployed, to launch it, click the link displayed in your
     <walkthrough-editor-spotlight spotlightId="output">Output</walkthrough-editor-spotlight>
-    panel, near the text
+    panel.
 
-    ```terminal
-    http://localhost:8080
-    Update successful
-    ```
 
-    You can open the web preview by clicking the <walkthrough-web-preview-icon/>
-    button and selecting "Preview on port 8080".
+ 4.   To open the web preview, click the <walkthrough-web-preview-icon/>
+    button, and select __Preview on port 8080__.
 
 ## Conclusion
 
